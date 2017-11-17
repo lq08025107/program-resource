@@ -737,84 +737,152 @@
 	```
 	
 * 随机产生20个不能重复的字符并排序
-```java
-package com.sdt.randomstring;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
-import java.util.TreeSet;
+    
+    ```java
+    package com.sdt.randomstring;
+    import java.util.ArrayList;
+    import java.util.Arrays;
+    import java.util.Collections;
+    import java.util.List;
+    import java.util.Random;
+    import java.util.Set;
+    import java.util.TreeSet;
+    /**
+     * 随机产生20个字符串并且字符串不能重复 且进行排序 
+     * @author liuqiang
+     *
+     */
+    public class RandomDemo {
 
+        /**
+         * @param args
+         */
+        public static String getString(int n) {
+            String s = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";  
+            Random ran = new Random();  
+            char[] ca = new char[n];
+            for (int i = 0; i < ca.length; i++) {  
+                ca[i] = s.charAt(ran.nextInt(62));  
+            }  
+            return new String(ca);  
+        }
+        //treeset本身就有排序和去重作用
+        public static String[] getStrings(int n){
+            String[] myStrings = new String[n];
+            Set stringset = new TreeSet();
+            while(stringset.size() < n){
+                stringset.add(getString(10));
+            }
+            Object[] strings = stringset.toArray();
+            for(int i = 0; i < strings.length; i++){
+                myStrings[i] = (String)strings[i];
+            }
+            return myStrings;
+        }
+        public static void main(String[] args) {
+            String[] sa = getStrings(100);   
+            for (int i = 0; i < sa.length; i++) {  
+             System.out.println(sa[i]);  
+            }  
 
-/**
- * 随机产生20个字符串并且字符串不能重复 且进行排序 
- * @author liuqiang
- *
- */
-public class RandomDemo {
+        }
 
-	/**
-	 * @param args
-	 */
-	public static String getString(int n) {
-		String s = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";  
-		Random ran = new Random();  
-		char[] ca = new char[n];
-		for (int i = 0; i < ca.length; i++) {  
-			ca[i] = s.charAt(ran.nextInt(62));  
-		}  
-		return new String(ca);  
-	}
-	//treeset本身就有排序和去重作用
-	public static String[] getStrings(int n){
-		String[] myStrings = new String[n];
-		Set stringset = new TreeSet();
-		while(stringset.size() < n){
-			stringset.add(getString(10));
-		}
-		Object[] strings = stringset.toArray();
-		for(int i = 0; i < strings.length; i++){
-			myStrings[i] = (String)strings[i];
-		}
-		return myStrings;
-	}
-	public static void main(String[] args) {
-		String[] sa = getStrings(100);   
-	    for (int i = 0; i < sa.length; i++) {  
-	     System.out.println(sa[i]);  
-	    }  
-
-	}
-
-}
-	public static void main(String[] args) {
-		// 随机产生20个字符并且字符不能重复 且进行排序 
-		Set noreapeat  =new TreeSet();
-        Random rdm = new Random();  
-        while (noreapeat.size()<20){
-        	int  bb =Math.abs(rdm.nextInt())%26+97;
-            char cc =(char)bb;
-            noreapeat.add(cc);
-       }
-       System.out.println(noreapeat);
-	}
-
-```
+    }
+        public static void main(String[] args) {
+            // 随机产生20个字符并且字符不能重复 且进行排序 
+            Set noreapeat  =new TreeSet();
+            Random rdm = new Random();  
+            while (noreapeat.size()<20){
+                int  bb =Math.abs(rdm.nextInt())%26+97;
+                char cc =(char)bb;
+                noreapeat.add(cc);
+           }
+           System.out.println(noreapeat);
+        }
+    ```
 * 写一个函数，传入 2 个有序的整数数组，返回一个有序的整数数组
+
+    ```java
+    public static int[] combine(int[] a, int[] b){
+            int lena = a.length;
+            int lenb = b.length;
+            int i = 0, j = 0, k = 0;
+            int[] c = new int[lena + lenb];
+            while(i < lena && j < lenb){
+                if (a[i] < b[j]) {
+                    c[k++] = a[i++];
+                }
+                else{
+                    c[k++] = b[j++];
+                }
+            }
+            while(i < lena){c[k++] = a[i++];}
+            while(j < lenb){c[k++] = b[j++];}
+            return c;
+        }
+    ```
 * 写一段代码在遍历 ArrayList 时移除一个元素
+    http://swiftlet.net/archives/743
+    ```java
+		public static void remove1(ArrayList<String> list){
+		for(int i = list.size() - 1; i >= 0; i--){
+			String string = list.get(i);
+			if("b".equals(string)){
+				list.remove(string);
+			}
+		}
+	}
+	public static void remove2(ArrayList<String> list){
+		Iterator<String> iterator = list.iterator();
+		while(iterator.hasNext()){
+			String string = iterator.next();
+			if("b".equals(string)){
+				iterator.remove();
+			}
+		}
+	}
+    ```
 * 古典问题：有一对兔子，从出生后第3个月起每个月都生一对兔子，小兔子长到第四个月后每个月又生一对兔子，假如兔子都不死，问每个月的兔子总数为多少
 * 约瑟芬环游戏
 
 ### 正则
 * 请编写一段匹配IP地址的正则表达式
+	```java
+    public final static String DOT = "\\.";
+	public static boolean validate(String ip){
+		if(ip == null || ip.equals(""))
+			return false;
+		String[] parts = ip.split(DOT);
+		if (parts.length != 4) 
+			return false;
+		for(String part : parts){
+			try {
+				if(Integer.parseInt(part) < 0 || Integer.parseInt(part)> 255)
+					return false;
+			} catch (Exception e) {
+				return false;
+			}
+			
+		}
+		return true;
+	}
+    ```
 * 写出一个正则表达式来判断一个字符串是否是一个数字
 
 ### 字符串
 * 写一个方法，入一个文件名和一个字符串，统计这个字符串在这个文件中出现的次数。
 * 写一个程序找出所有字符串的组合，并检查它们是否是回文串
 * 写一个字符串反转函数，输入abcde转换成edcba代码
+    http://blog.csdn.net/guomutian911/article/details/48912617
+    ```java
+		public static String convert(String origin){
+            StringBuilder ret = new StringBuilder();
+                for(int i = origin.length() -1; i >= 0; i--){
+                    ret.append(origin.charAt(i));
+                }
+            return ret.toString();
+		}
+    ```
 * 小游戏，倒转句子中的单词
 * 将GB2312编码的字符串转换为ISO-8859-1编码的字符串
 * 请写一段代码来计算给定文本内字符“A”的个数。分别用迭代和递归两种方式
