@@ -699,6 +699,22 @@
 * 50个人围坐一圈，当数到三或者三的倍数出圈，问剩下的人是谁，原来的位置是多少
 * 实现一个电梯模拟器用
 * 写一个冒泡排序
+	```java
+		public static int[] sort(int[] array){
+		int[] newarray = null;
+		for(int i = 0; i <= array.length - 1; i++){
+			for(int j = i + 1; j <= array.length - 1; j++){
+				if(array[i] > array[j]){
+					int tmp = array[j];
+					array[j] = array[i];
+					array[i] = tmp;
+				}
+			}
+		}
+		newarray = array;
+		return newarray;
+	}
+	```
 * 写一个折半查找
 	```java
 	public static boolean find(int[] array, int target){
@@ -721,6 +737,71 @@
 	```
 	
 * 随机产生20个不能重复的字符并排序
+```java
+package com.sdt.randomstring;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
+import java.util.TreeSet;
+
+
+/**
+ * 随机产生20个字符串并且字符串不能重复 且进行排序 
+ * @author liuqiang
+ *
+ */
+public class RandomDemo {
+
+	/**
+	 * @param args
+	 */
+	public static String getString(int n) {
+		String s = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";  
+		Random ran = new Random();  
+		char[] ca = new char[n];
+		for (int i = 0; i < ca.length; i++) {  
+			ca[i] = s.charAt(ran.nextInt(62));  
+		}  
+		return new String(ca);  
+	}
+	//treeset本身就有排序和去重作用
+	public static String[] getStrings(int n){
+		String[] myStrings = new String[n];
+		Set stringset = new TreeSet();
+		while(stringset.size() < n){
+			stringset.add(getString(10));
+		}
+		Object[] strings = stringset.toArray();
+		for(int i = 0; i < strings.length; i++){
+			myStrings[i] = (String)strings[i];
+		}
+		return myStrings;
+	}
+	public static void main(String[] args) {
+		String[] sa = getStrings(100);   
+	    for (int i = 0; i < sa.length; i++) {  
+	     System.out.println(sa[i]);  
+	    }  
+
+	}
+
+}
+	public static void main(String[] args) {
+		// 随机产生20个字符并且字符不能重复 且进行排序 
+		Set noreapeat  =new TreeSet();
+        Random rdm = new Random();  
+        while (noreapeat.size()<20){
+        	int  bb =Math.abs(rdm.nextInt())%26+97;
+            char cc =(char)bb;
+            noreapeat.add(cc);
+       }
+       System.out.println(noreapeat);
+	}
+
+```
 * 写一个函数，传入 2 个有序的整数数组，返回一个有序的整数数组
 * 写一段代码在遍历 ArrayList 时移除一个元素
 * 古典问题：有一对兔子，从出生后第3个月起每个月都生一对兔子，小兔子长到第四个月后每个月又生一对兔子，假如兔子都不死，问每个月的兔子总数为多少

@@ -1,3 +1,4 @@
+package com.sdt.sort;
 /**
  * 
  */
@@ -30,7 +31,8 @@ public class BFind {
 	 */
 	public static void main(String[] args) {
 		int[] array = {1,2,3,4,5,6};
-		int target = 3;
+		int target = 9;
+		array = new BubbleSort().sort(array);
 		boolean flag = find(array, target);
 		System.out.println(flag);
 
