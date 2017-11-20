@@ -675,9 +675,45 @@
 * 将一个正整数分解质因数。例如：输入90,打印出90=2\*3\*3\*5。
 * 打印出所有的 “水仙花数 “，所谓 “水仙花数 “是指一个三位数，其各位数字立方和等于该数本身。例如：153是一个 “水仙花数 “，因为153=1的三次方＋5的三次方＋3的三次方
 * 原地交换两个变量的值
+
+method1: A=A+B; B=A-B;A=A-B
+method2:A=A^B;B=A^B;A=A^B;
 * 找出4字节整数的中位数
 * 找到整数的平方根
 * 实现斐波那契
+
+```java
+	public static int Fibnacci0(int number){
+		if(number < 0) return -1;
+		if(number == 0) return 0;
+		if(number == 1 || number == 2) return 1;
+		return Fibnacci0(number-1) + Fibnacci0(number-2);
+		
+	}
+	public static int Fibnacci1(int number){
+		if(number < 0) return -1;
+		if(number == 0) return 0;
+		if(number == 1 || number == 2) return 1;
+		int a = 1, b = 1, c = 0;
+		for(int i = 3; i <= number; i++){
+			c = a + b;
+			a = b;
+			b = c;
+		}
+		return c;
+	}
+	public static int Fibnacci2(int number){
+		if(number < 0) return -1;
+		if(number == 0) return 0;
+		if(number == 1 || number == 2) return 1;
+		int[] array = new int[number + 1];
+		array[0] = 0; array[1] = 1; array[2] = 1;
+		for(int i = 3; i <= number; i++){
+			 array[i] = array[i-1] + array[i-2];
+		}
+		return array[number];
+	}
+```
 
 ### 网络
 * 用Java Socket编程，读服务器几个字符，再写入本地显示
