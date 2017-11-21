@@ -30,13 +30,14 @@ public class Sqrt {
 		}
 		double precise = (prec != null ? prec : 1e-7);
 		double x = target;
-		while (Math.abs() > precise) {
-			
+		while (x*x - target > precise) {
+			x = (x + target/x)/2;
 		}
+		return x;
 	}
 	
 	public static void main(String[] args) {
-		System.out.println(sqrt(40000, 1e-7));
+		System.out.println(sqrt1(40000, 1e-7));
 		System.out.println(Math.sqrt(40000));
 		
 	}

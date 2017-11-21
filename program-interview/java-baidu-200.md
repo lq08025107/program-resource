@@ -651,10 +651,28 @@
 
 ### 数字
 * 判断101-200之间有多少个素数，并输出所有素数
+```java
+	//求素数质数 只能被1和自己本身整除
+	public static List<Integer> getPrime(int start, int end){
+		if(start <=0 || end <= 0 || start > end) throw new RuntimeException();
+		List<Integer> result = new ArrayList<>();
+		for(int i = start; i<= end; i++){
+			int j = 2;
+			while(j < i){
+				if(i%j == 0) break;
+				j++;
+			}
+			if(i == j) result.add(i);
+		}
+		return result;
+	}
+```
 * 用最有效率的方法算出2乘以17等于多少
+答：System.out.println(17<<1);
 * 有 1 亿个数字，其中有 2 个是重复的，快速找到它，时间和空间要最优
 * 2 亿个随机生成的无序整数,找出中间大小的值
 * 10 亿个数字里里面找最小的 10 个
+答：topk 问题
 * 1到1亿的自然数，求所有数的拆分后的数字之和，如286 拆分成2、8、6，如1到11拆分后的数字之和 => 1 + ... + 9 + 1 + 0 + 1 + 1
 * 一个数如果恰好等于它的因子之和，这个数就称为 “完数 “。例如6=1＋2＋3.编程   找出1000以内的所有完数
 * 一个数组中所有的元素都出现了三次，只有一个元素出现了一次找到这个元素 
@@ -669,6 +687,12 @@
 * 有 3n+1 个数字，其中 3n 个中是重复的，只有 1 个是不重复的，怎么找出来。
 * 有一组数1.1.2.3.5.8.13.21.34。写出程序随便输入一个数就能给出和前一组数字同规律的头5个数
 * 计算指定数字的阶乘
+```java
+	public static int fact(int n){
+		if(n == 0) return 1;
+			return n*fact(n-1);
+	}
+```
 * 开发 Fizz Buzz 
 * 给定一个包含 N 个整数的数组，找出丢失的整数
 * 一个排好序的数组，找出两数之和为m的所有组合 
@@ -680,6 +704,39 @@ method1: A=A+B; B=A-B;A=A-B
 method2:A=A^B;B=A^B;A=A^B;
 * 找出4字节整数的中位数
 * 找到整数的平方根
+
+```java
+		//二分法
+	public static double sqrt(double target, Double prec){
+		if (target < 0) {
+			throw new RuntimeException();
+		}
+		double precise = (prec != null ? prec : 1e-7);  
+		double low = 0, high = target, middle = 0, squre = 0;
+		while(high-low > precise){
+			middle = (high + low)/2;
+			squre = middle * middle;
+			if (squre < target)
+				low = middle;
+			if(squre > target)
+				high = middle;
+		}
+		return (high + low)/2;
+	}
+	//newton
+	public static double sqrt1(double target, Double prec){
+		if (target < 0) {
+			throw new RuntimeException();
+		}
+		double precise = (prec != null ? prec : 1e-7);
+		double x = target;
+		while (x*x - target > precise) {
+			x = (x + target/x)/2;
+		}
+		return x;
+	}
+	
+```
 * 实现斐波那契
 
 ```java
