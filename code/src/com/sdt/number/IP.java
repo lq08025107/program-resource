@@ -1,22 +1,25 @@
 package com.sdt.number;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
 
 import com.sdt.file.FileUtils;
 
-import sun.reflect.generics.reflectiveObjects.GenericArrayTypeImpl;
 
 public class IP {
 	public static int K10 = 1024 * 10;
@@ -29,13 +32,42 @@ public class IP {
 		generatePartitionFile("ip", "ips.txt", 100); 
 		
 		System.out.println("done");
+		searchTopN(10);
 	}
-	public static void searchTopN(int count){
+	public static void searchTopN(int count) throws IOException{
 		File[] smallFiles = getPartitionFile("ip", 100);
 		DataInputStream dis = null;
 		Map<Integer, Integer> ipCountMap = new HashMap<Integer, Integer>();
 		
+        TopNHeap<IPInfo> heap = new TopNHeap<IPInfo>(count);  
+        for (int i = 0; i < 100; i++) {  
+            ipCountMap.clear();  
+            try {  
+                dis = new DataInputStream(new BufferedInputStream(new FileInputStream(smallFiles[i]), K10));  
+                while (dis.available() > 0) {  
+                    int ip = dis.readInt();  
+                    Integer cnt = ipCountMap.get(ip);  
+                    ipCountMap.put(ip, cnt == null ? 1 : cnt + 1);  
+                }  
+                searchMostCountIps(ipCountMap, heap);  
+            } finally {  
+                if (dis != null) {  
+                    try {  
+                        dis.close();  
+                    } catch (IOException e) {  
+                        e.printStackTrace();  
+                    }  
+                }  
+            }  
+        }  
+        printResult(heap);  
+		
 	}
+	private static void printResult(TopNHeap<IPInfo> heap) {  
+        while (heap.hasNext()) {  
+            System.out.println(heap.removeTop().toString());  
+        }  
+    }
 	//生成ip
 	public static void generateMassIP(String srcDirName, String srcFileName, int count) 
 			throws IOException{
@@ -65,12 +97,25 @@ public class IP {
 		}
 		
 	}
+	
+	private static void searchMostCountIps(Map<Integer, Integer> map,  
+            TopNHeap<IPInfo> heap) {  
+        Iterator<Integer> iter = map.keySet().iterator();  
+        Integer key = null;  
+        while (iter.hasNext()) {  
+            key = iter.next();  
+            int count = map.get(key);  
+            if (!heap.isFull() || count > heap.getHeapTop().getCount()) {  
+                heap.addToHeap(new IPInfo(count, key));  
+            }  
+        }  
+    } 
 	public static File[] generatePartitionFile(String srcDirName, String srcFileName, int count) 
 			throws IOException{
 		File[] files = new File[count];
 		DataOutputStream[] dpos = new DataOutputStream[count];
 		for(int i =0; i< count; i++){
-			files[i] = FileUtils.createFile(srcDirName, i + ".data");
+			files[i] = FileUtils.createFile(srcDirName, i + ".txt");
 		}
 		File file = FileUtils.getFile(srcDirName, srcFileName);
 		BufferedReader br = null;
