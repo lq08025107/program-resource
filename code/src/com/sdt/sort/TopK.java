@@ -35,7 +35,7 @@ public class TopK {
 		}
 		System.out.println(" ");
 	}
-	//堆排序实现topk
+	//堆排序实现topk,首先维护一个k大小的堆，找最小用大顶堆，找最大用小顶堆，开始遍历数组，如果比堆顶小，则替换堆顶元素，然后调整
 	public static int[] getTopK_heap(int[] array, int k){
 		int[] top = new int[k];
 		for(int i = 0; i< k; i++) {
