@@ -7,31 +7,30 @@ import sun.tools.jar.resources.jar;
 
 /**
  * @author liuqiang
- * 快速排序
- * 挖坑+分治
+ * 蹇�熸帓搴�
+ * 鎸栧潙+鍒嗘不
  */
 public class QuickSort {
-	 public static int partition(int[] a, int lo, int hi){//返回调整后基数的位置
+	 public static int partition(int[] a, int lo, int hi){//杩斿洖璋冩暣鍚庡熀鏁扮殑浣嶇疆
 		int i = lo, j = hi;
-		int x = a[lo];//a[i]是第一坑
+		int x = a[lo];//a[i]鏄涓�鍧�
 		while(i < j){
-			//从右向左找小于x的数来填a[i]
+			//浠庡彸鍚戝乏鎵惧皬浜巟鐨勬暟鏉ュ～a[i]
 			while(i < j && a[j] >= x)
 				j--;
 			if(i < j){
-				a[i] = a[j];//将a[j]填坑到a[i]，i++ a[j]形成新坑
+				a[i] = a[j];//灏哸[j]濉潙鍒癮[i]锛宨++ a[j]褰㈡垚鏂板潙
 				i++;
-			}//从左向右找大于x的数来填a[j]
+			}//浠庡乏鍚戝彸鎵惧ぇ浜巟鐨勬暟鏉ュ～a[j]
 			while(i < j && a[i] < x)
 				i++;
 			if(i < j){
-				a[j] = a[i];//将a[i]填坑到a[j]，j-- a[i]形成新坑
+				a[j] = a[i];//灏哸[i]濉潙鍒癮[j]锛宩-- a[i]褰㈡垚鏂板潙
 				j--;
 			}
 		}
-		a[i] = x;//退出时， i等于j，将x填到这里
+		a[i] = x;//閫�鍑烘椂锛� i绛変簬j锛屽皢x濉埌杩欓噷
 		return i;
-		
 	}
 	public static int[] quickSort(int[] array,int start, int end){
 		if(start >= end)
