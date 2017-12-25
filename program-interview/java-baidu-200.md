@@ -164,6 +164,7 @@
     * EnumSet 是什么
 * Hash算法
     * Hashcode 的作用
+    答： hashcode主要用于查找的快捷性，用来在散列存储结构中确定对象的存储地址。
     * 简述一致性 Hash 算法
     * 有没有可能 两个不相等的对象有相同的 hashcode？当两个对象 hashcode 相同怎么办？如何获取值对象 
     * 为什么在重写 equals 方法的时候需要重写 hashCode 方法？equals与 hashCode 的异同点在哪里
